@@ -1,6 +1,5 @@
 <!-- Lets make a simple image magnifier -->
 <style type="text/css">
-	* {margin: 0; padding: 0;}
 	.magnify {width: 200px; margin: 50px auto; position: relative;}
 
 	/*Lets create the magnifying glass*/
@@ -14,7 +13,7 @@
 		inset 0 0 40px 2px rgba(0, 0, 0, 0.25);
 	
 		/*Lets load up the large image first*/
-		background: url('http://thecodeplayer.com/uploads/media/iphone.jpg') no-repeat;
+		background: url('http://hoopniks.com/wp-content/uploads/2010/12/GeorgiaTech.jpg') no-repeat;
 	
 		/*hide the glass by default*/
 		display: none;
@@ -24,22 +23,24 @@
 	.small { display: block; }
 </style>
 
+<h1>Magnifying Glass</h1>
+
 <div class="magnify">
 	
 	<!-- This is the magnifying glass which will contain the original/large version -->
 	<div class="large"></div>
 	
 	<!-- This is the small image -->
-	<img class="small" src="http://thecodeplayer.com/uploads/media/iphone.jpg" width="200"/>
+	<img class="small" src="http://hoopniks.com/wp-content/uploads/2010/12/GeorgiaTech.jpg" width="200"/>
 	
 </div>
 
 <!-- Lets load up prefixfree to handle CSS3 vendor prefixes -->
-<script src="http://thecodeplayer.com/uploads/js/prefixfree.js" type="text/javascript"></script>
+<script src="https://raw.github.com/LeaVerou/prefixfree/gh-pages/prefixfree.min.js" type="text/javascript"></script>
 <!-- You can download it from http://leaverou.github.com/prefixfree/ -->
 
 <!-- Time for jquery action -->
-<script src="http://thecodeplayer.com/uploads/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+<script src="http://code.jquery.com/jquery-1.7.1.min.js" type="text/javascript"></script>
 
 <script>
 	$(document).ready(function(){

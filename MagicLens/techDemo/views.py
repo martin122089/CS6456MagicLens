@@ -5,3 +5,6 @@ def magnifyingGlass(request):
 
 def screenDarkening(request):
     return render_to_response('screenDarkening.html', {})
+
+def screenDimExample(request):
+    return render_to_response('screenDimExample.html', {})
