@@ -1,6 +1,9 @@
 <style type="text/css">
-/*Styles for fuzz overlay & message box*/
- #fuzz{ display: none;
+
+  .picture {width: 200px; margin: 50px auto; position: relative;}
+
+  /*Styles for fuzz overlay*/
+  #dimming{ display: none;
 			position: absolute;
 			top: 0%;
 			left: 0%;
@@ -8,32 +11,34 @@
 			height: 100%;
 			background-color: black;
 			z-index:1001;
-			-moz-opacity: 0.8;
 			opacity:.80;
-			filter: alpha(opacity=80);}
+			filter: alpha(opacity=80);
+  }
 
-   /*Message box, positioned in dead center of browser*/
-   .msgbox{ position:absolute; width:300px; height:200px; z-index:200; border:5px solid #222; background: #FFF; top: 50%; left: 50%; margin-top: -100px; margin-left: -150px; }
-      .msgbox img {border:none; margin:5px;}
+  .lens {
+    width: 175px; height: 175px;
+    position: absolute;
+    z-index:1002;
+    /*Multiple box shadows to achieve the glass effect*/
+    box-shadow: 0 0 0 7px rgba(255, 255, 0, 0.85), 
+                0 0 7px 7px rgba(255, 215, 0, 0.85), 
+          inset 0 0 40px 2px rgba(255, 165, 0, 0.85);
+  }
 
-      /*The "X" in the upper right corner of msgbox*/
-      .close{ top:0px; float:right; }
 </style>
 
 <body>
 
 <!--The overlay and message box-->
- <div id="fuzz">
-    <!-- <div class="msgbox">
-       <a class="close" href="#" ><img src="close.jpg"/></a>
-    </div> -->
+ <div class="lens"></div>
+
+ <div id="dimming"></div>
+
+ <div class="picture">
+     <img class="small" src="http://hoopniks.com/wp-content/uploads/2010/12/GeorgiaTech.jpg" width="200"/>
  </div>
 
 <!--The content to be hidden-->
- <div id="content">
-       <a class="alert" href="#" >Alert Me!</a>
- </div>
-
 </body>
 
 <script src="http://code.jquery.com/jquery-1.7.1.min.js" type="text/javascript"></script>
@@ -41,18 +46,24 @@
 <script>
 $(document).ready(function(){
 
+   $(".lens").hide();
+    
    //Adjust height of overlay to fill screen when page loads
-   $("#fuzz").css("height", $(document).height());
+   $("#dimming").css("height", $(document).height());
 
    //When the link that triggers the message is clicked fade in overlay/msgbox
    $(document).keypress(function(event){
-      $("#fuzz").fadeIn();
+    if ( event.which == 100 ) {      
+      $("#dimming").fadeIn();
+      $('.lens').show();
       return false;
+    }        
    });
 
    //When the message box is closed, fade out
-   $(".close").click(function(){
-      $("#fuzz").fadeOut();
+   $(document).click(function(){
+      $("#dimming").fadeOut();
+      $(".lens").hide();
       return false;
    });
 
@@ -60,6 +71,6 @@ $(document).ready(function(){
 
 //Adjust height of overlay to fill screen when browser gets resized
 $(window).bind("resize", function(){
-   $("#fuzz").css("height", $(window).height());
+   $("#dimming").css("height", $(window).height());
 });
 </script>
