@@ -16,7 +16,8 @@
   }
 
   .lens {
-    width: 175px; height: 175px;
+    width: 600px; 
+    height: 300px;
     position: absolute;
     z-index:1002;
     /*Multiple box shadows to achieve the glass effect*/
@@ -29,48 +30,86 @@
 
 <body>
 
-<!--The overlay and message box-->
- <div class="lens"></div>
+  <h1>Screen Dimming</h1>
 
- <div id="dimming"></div>
+  <div id="dimming"></div>
 
- <div class="picture">
-     <img class="small" src="http://hoopniks.com/wp-content/uploads/2010/12/GeorgiaTech.jpg" width="200"/>
- </div>
+  <div id="draggableLens" class="lens"></div>
+  
+  <div id="background"> 
 
-<!--The content to be hidden-->
+    <div class="picture">
+         <img class="small" src="http://hoopniks.com/wp-content/uploads/2010/12/GeorgiaTech.jpg" width="200"/>
+    </div>
+
+</div>
+
 </body>
 
 <script src="http://code.jquery.com/jquery-1.7.1.min.js" type="text/javascript"></script>
 
 <script>
-$(document).ready(function(){
+  $(document).ready(function(){
 
-   $(".lens").hide();
-    
-   //Adjust height of overlay to fill screen when page loads
-   $("#dimming").css("height", $(document).height());
+    $(".lens").hide();
 
-   //When the link that triggers the message is clicked fade in overlay/msgbox
-   $(document).keypress(function(event){
-    if ( event.which == 100 ) {      
-      $("#dimming").fadeIn();
-      $('.lens').show();
-      return false;
-    }        
-   });
+    //Adjust height of overlay to fill screen when page loads
+    $("#dimming").css("height", $(document).height());
 
-   //When the message box is closed, fade out
-   $(document).click(function(){
-      $("#dimming").fadeOut();
-      $(".lens").hide();
-      return false;
-   });
+    //when the d button is clicked, dim the screen and show the lens
+    $(document).keypress(function(event){
+      if ( event.which == 100 ) {      
+        $("#dimming").fadeIn();
+        $('.lens').show();
+        $('body').css({'cursor' : 'none'});
+        $("#dimming").click(function(e){
+          var mouseX = e.pageX;
+          var mouseY = e.pageY;
+        });
+        return false;
+      };
 
-});
+    //when the u button is clicked, undim the screen and hide the lens
+      if ( event.which == 117 ) { 
+        $("#dimming").fadeOut();
+        $(".lens").hide();
+        $('body').css({'cursor' : 'default'});
+        return false;
+      };       
+    });
 
-//Adjust height of overlay to fill screen when browser gets resized
-$(window).bind("resize", function(){
-   $("#dimming").css("height", $(window).height());
-});
+    //controls for increasing and decreasing the size of the lens
+    $(document).keypress(function(event){
+      if ( event.which == 119) {
+        $('.lens').css('width', "+=25");
+      };
+
+      if ( event.which == 115) {
+        $('.lens').css('width', "-=25");
+      };
+
+      if ( event.which == 104) {
+        $('.lens').css('height', "+=25");
+      };
+
+      if ( event.which == 110) {
+        $('.lens').css('height', "-=25");
+      };
+    });
+
+    //make the lens follow the mouse around the screen
+    $(document).click(function(e){
+      $('.lens').css('top', e.pageY - 150).css('left', e.pageX - 300);
+    });
+
+    //make the lens snap to the pointer when the dimmed page is clicked
+    $("#draggableLens").mousemove(function(e){
+      $('.lens').css('top', e.pageY - 150).css('left', e.pageX - 300);
+    });
+  });
+
+    //Adjust height of overlay to fill screen when browser gets resized
+  $(window).bind("resize", function(){
+    $("#dimming").css("height", $(window).height());
+  });
 </script>
