@@ -24,17 +24,18 @@
     box-shadow: 0 0 0 7px rgba(255, 255, 0, 0.85), 
                 0 0 7px 7px rgba(255, 215, 0, 0.85), 
           inset 0 0 40px 2px rgba(255, 165, 0, 0.85);
+    background: url('http://fc04.deviantart.net/fs71/f/2012/319/f/1/screendimming_by_something21-d5l4wz4.png') no-repeat;
   }
 
 </style>
 
 <body>
 
+  <div id="draggableLens" class="lens"></div>
+
   <h1>Screen Dimming</h1>
 
-  <div id="dimming"></div>
-
-  <div id="draggableLens" class="lens"></div>
+  <div id="dimming"></div>  
   
   <div id="background"> 
 
@@ -61,11 +62,7 @@
       if ( event.which == 100 ) {      
         $("#dimming").fadeIn();
         $('.lens').show();
-        $('body').css({'cursor' : 'none'});
-        $("#dimming").click(function(e){
-          var mouseX = e.pageX;
-          var mouseY = e.pageY;
-        });
+        //$('body').css({'cursor' : 'none'});
         return false;
       };
 
@@ -79,6 +76,7 @@
     });
 
     //controls for increasing and decreasing the size of the lens
+    //consider changing this to look for scroll events
     $(document).keypress(function(event){
       if ( event.which == 119) {
         $('.lens').css('width', "+=25");
@@ -98,17 +96,23 @@
     });
 
     //make the lens follow the mouse around the screen
-    $(document).click(function(e){
-      $('.lens').css('top', e.pageY - 150).css('left', e.pageX - 300);
-    });
-
-    //make the lens snap to the pointer when the dimmed page is clicked
     $("#draggableLens").mousemove(function(e){
-      $('.lens').css('top', e.pageY - 150).css('left', e.pageX - 300);
+
+      var lensPositionX = e.pageX - 300;
+      var lensPositionY = e.pageY - 150;
+
+      var position = $(this).position();
+      var offset = $(this).offset();
+      var mousePositionX = e.pageX - position.left - offset.left - 300;
+      var mousePositionY = e.pageY - position.top - offset.top - 150;
+
+      var backgroundPositionCSS = mousePositionX + "px " + mousePositionY + "px";
+      $('.lens').css({top: lensPositionY, left: lensPositionX, backgroundPosition: backgroundPositionCSS});
+
     });
   });
 
-    //Adjust height of overlay to fill screen when browser gets resized
+  //Adjust height of overlay to fill screen when browser gets resized
   $(window).bind("resize", function(){
     $("#dimming").css("height", $(window).height());
   });
