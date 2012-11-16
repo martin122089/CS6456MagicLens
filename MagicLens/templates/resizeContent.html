@@ -1,0 +1,50 @@
+<style type="text/css">
+
+</style>
+
+<body>
+
+  <h1>Resize Content</h1> 
+
+  <img src="http://hoopniks.com/wp-content/uploads/2010/12/GeorgiaTech.jpg" width="200"/>
+
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <img src="http://wp.auburn.edu/auburnmagazine/wp-content/uploads/2011/11/uga-vii.jpg" width="200"/>
+
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <img src="http://eye-on-collegefootball.blogs.cbssports.com/images/collegefootball/clemson.png" width="200"/>
+
+</body>
+
+<script src="http://code.jquery.com/jquery-1.7.1.min.js" type="text/javascript"></script>
+
+<script>
+  $(document).ready(function(){
+
+    $('img').click(function(e) {
+      $(document).unbind('keypress');
+      $(document).keypress(function(event) {
+        if ( event.which == 115) {
+          $(e.target).css('width', "+=25").css('height', "+=25");
+        };
+
+        if ( event.which == 97) {
+          $(e.target).css('width', "-=25").css('height', "-=25");
+        };
+      });
+    });
+
+  });
+</script>
