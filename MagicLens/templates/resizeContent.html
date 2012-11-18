@@ -16,29 +16,19 @@
 
 <body>
 
-  <!-- <div id="draggableLens" class="lens"></div> -->
+  <div id="draggableLens" class="lens"></div>
 
   <h1>Resize Content</h1> 
 
   <img src="http://hoopniks.com/wp-content/uploads/2010/12/GeorgiaTech.jpg" width="200"/>
 
   <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
 
   <img src="http://wp.auburn.edu/auburnmagazine/wp-content/uploads/2011/11/uga-vii.jpg" width="200"/>
 
   <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
 
-  <img src="http://eye-on-collegefootball.blogs.cbssports.com/images/collegefootball/clemson.png" width="200"/>
+  <img src="http://eye-on-collegefootball.blogs.cbssports.com/images/collegefootball/clemson.png" width="400"/>
 
 </body>
 
@@ -47,24 +37,56 @@
 <script>
   $(document).ready(function(){
 
+    $('body').css({'cursor' : 'none'});
+
+    $(function() {
+      window.imgWidth = 150;
+      window.imgHeight = 150;
+      window.lensWidth = Math.round(imgWidth/2);
+      window.lensHeight = Math.round(imgHeight/2);
+    });   
+
+    $('.lens').click(function() {
+        $('.lens').css('display', 'none');
+        $('body').css({'cursor' : 'default'});
+    });
+
     $('img').click(function(e) {
+
+      window.imgWidth = $(e.target).css('width');
+      window.imgHeight = $(e.target).css('height'); 
+
+      $('.lens').css('width', window.imgWidth).css('height', window.imgHeight);
+
+      $('.lens').css('display', 'inline');
+
+      $('body').css({'cursor' : 'none'});
+
+    });
+
+    $('img').mouseover(function(e) {
+
+      var elem = document.elementFromPoint(e.pageX, e.pageY);
+
       $(document).unbind('keypress');
       $(document).keypress(function(event) {
-        if ( event.which == 115) {
-          $(e.target).css('width', '+=25').css('height', '+=25');
+        if ( event.which == 119) {
+          $(elem).css('width', '+=25').css('height', '+=25');
+          $('.lens').css('width', '+=25').css('height', '+=25');
         };
 
-        if ( event.which == 97) {
-          $(e.target).css('width', '-=25').css('height', '-=25');
+        if ( event.which == 113) {
+          $(elem).css('width', '-=25').css('height', '-=25');
+          $('.lens').css('width', '-=25').css('height', '-=25');
         };
       });
     });
 
     //code to drag the lens around with the mouse
-    $("#draggableLens").mousemove(function(e){
+    $('.lens').mousemove(function(e){
 
-      var lensPositionX = e.pageX - 75;
-      var lensPositionY = e.pageY - 75;
+      var lensPositionX = e.pageX - window.lensWidth;
+      var lensPositionY = e.pageY - window.lensHeight;
 
       $('.lens').css({top: lensPositionY, left: lensPositionX});
 
