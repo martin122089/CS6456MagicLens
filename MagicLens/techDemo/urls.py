@@ -5,5 +5,5 @@ urlpatterns = patterns('techDemo.views',
     url(r'^screenDim/$', 'screenDim'),
     url(r'^resizeContent/$', 'resizeContent'),
     url(r'^textAnnotate/$', 'textAnnotate'),
-    
+    url(r'^viewCode/$', 'viewCode'),    
 )

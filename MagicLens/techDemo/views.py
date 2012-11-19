@@ -11,4 +11,7 @@ def resizeContent(request):
 
 def textAnnotate(request):
     return render_to_response('textAnnotate.html', {})
+
+def viewCode(request):
+    return render_to_response('viewCode.html', {})
     

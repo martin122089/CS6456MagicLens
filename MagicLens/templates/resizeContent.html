@@ -46,12 +46,17 @@
       window.lensHeight = Math.round(imgHeight/2);
     });   
 
-    $('.lens').click(function() {
+    $('.lens').mousedown(function(e) {
         $('.lens').css('display', 'none');
         $('body').css({'cursor' : 'default'});
     });
 
-    $('img').click(function(e) {
+    $(document).mouseup(function() {
+        $('.lens').css('display', 'none');
+        $('body').css({'cursor' : 'none'});
+    });
+
+    $('img').mouseover(function(e) {
 
       window.imgWidth = $(e.target).css('width');
       window.imgHeight = $(e.target).css('height'); 
@@ -66,17 +71,15 @@
 
     $('img').mouseover(function(e) {
 
-      var elem = document.elementFromPoint(e.pageX, e.pageY);
-
       $(document).unbind('keypress');
       $(document).keypress(function(event) {
         if ( event.which == 119) {
-          $(elem).css('width', '+=25').css('height', '+=25');
+          $(e.target).css('width', '+=25').css('height', '+=25');
           $('.lens').css('width', '+=25').css('height', '+=25');
         };
 
         if ( event.which == 113) {
-          $(elem).css('width', '-=25').css('height', '-=25');
+          $(e.target).css('width', '-=25').css('height', '-=25');
           $('.lens').css('width', '-=25').css('height', '-=25');
         };
       });
