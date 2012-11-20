@@ -1,8 +1,8 @@
 <style type="text/css">
 
   .lens {
-    width: 300px; 
-    height: 300px;
+    width: 250px; 
+    height: 200px;
     position: absolute;
     z-index: 1002;
     pointer-events: auto;
@@ -10,25 +10,68 @@
     box-shadow: 0 0 0 7px rgba(255, 255, 255, 0.85), 
                 0 0 7px 7px rgba(0, 0, 0, 0.25), 
           inset 0 0 40px 2px rgba(0, 0, 0, 0.25);
+    background-color:white;
+    opacity:0.8;
   }
+
+  /*search within paragraph for text*/
 
 </style>
 
 <body>
 
-  <div id="draggableLens" class="lens"></div>
+  <div id="draggableLens" class="lens">
+
+  </div>
 
   <h1>Resize Content</h1>
 
-  <img src="http://hoopniks.com/wp-content/uploads/2010/12/GeorgiaTech.jpg" width="200"/>
-
+  <br>
+  <br>
   <br>
 
-  <img src="http://wp.auburn.edu/auburnmagazine/wp-content/uploads/2011/11/uga-vii.jpg" width="200"/>
+  <img src="http://hoopniks.com/wp-content/uploads/2010/12/GeorgiaTech.jpg" width="200" alt="Georgia Tech Buzz"/>
+
+  <img src="http://wp.auburn.edu/auburnmagazine/wp-content/uploads/2011/11/uga-vii.jpg" width="200" alt="Ugly Bulldog"/>
+
+  <img src="http://eye-on-collegefootball.blogs.cbssports.com/images/collegefootball/clemson.png" width="200" alt="Clemson Paw Print"/>
 
   <br>
+  <br>
+  <br>
 
-  <img src="http://eye-on-collegefootball.blogs.cbssports.com/images/collegefootball/clemson.png" width="200"/>
+  <p>This is simply a test paragraph meant to test the code</p>
+
+  <br>
+  <br>
+  <br>
+
+  <table border="1">
+    <tr>
+      <td>row 1, cell 1</td>
+      <td>row 1, cell 2</td>
+    </tr>
+    <tr>
+      <td>row 2, cell 1</td>
+      <td>row 2, cell 2</td>
+    </tr>
+    <tr>
+      <td>row 3, cell 1</td>
+      <td>row 3, cell 2</td>
+    </tr>
+    <tr>
+      <td>row 4, cell 1</td>
+      <td>row 4, cell 2</td>
+    </tr>
+    <tr>
+      <td>row 5, cell 1</td>
+      <td>row 5, cell 2</td>
+    </tr>
+    <tr>
+      <td>row 6, cell 1</td>
+      <td>row 6, cell 2</td>
+    </tr>
+  </table>
 
 </body>
 
@@ -39,29 +82,145 @@
 
     $('body').css({'cursor' : 'none'});
 
-    //make lens disappear on mousedown
-    $('#draggableLens').mousedown(function(e){
-      $('.lens').css('display', 'none');
+    //code obtained from http://stackoverflow.com/questions/4535888/jquery-text-and-newlines to make newline characters work in the lens
+    function htmlForTextWithEmbeddedNewlines(text) {
+      var htmls = [];
+      var lines = text.split(/\n/);
+      for (var i = 0 ; i < lines.length ; i++) {
+          htmls.push(
+              jQuery(document.createElement('div')).text(lines[i]).html()
+          );
+      }
+      return htmls.join("<br>");
+    }
+
+
+    // make lens disappear on mousedown
+    $('.lens').click(function(e){
+     $('.lens').hide();
+     $('body').css({'cursor' : 'default'});
     })
 
     //make lens reappear on mouseup
-    $(document).mouseup(function(e){
-      $('.lens').css('display', 'inline');
+    $('img, p, table').click(function(e){
+      $('.lens').show();
+      $('body').css({'cursor' : 'none'});
     })
 
-    //get the CSS properties of the image to be dusplayed in the lens
+    //get the CSS properties of the image to be displayed in the lens
     $('img').mouseover(function(e) {
+
+      var imgWidth = $(e.target).css('width');
+      $('#imgWidth').val(imgWidth);
+      var imgHeight = $(e.target).css('height');
+      $('#imgHeight').val(imgHeight);
+      var imgPosition = $(e.target).position();
+      var imgX = imgPosition.left;
+      $('#imgX').val(imgX);
+      var imgY = Math.round(imgPosition.top);
+      $('#imgY').val(imgY);
+      var imgZIndex = $(e.target).css('z-index');
+      $('#imgZIndex').val(imgZIndex);
+      var imgMargin = $(e.target).css('margin');
+      $('#imgMargin').val(imgMargin);
+      var imgBorder = $(e.target).css('border');
+      $('#imgBorder').val(imgBorder);
+      var imgAltText = $(e.target).attr('alt');
+      $('#imgAltText').val(imgAltText);
+
+      var lensImgText = "Width: " + imgWidth + "\n" + 
+                        "Height: " + imgHeight + "\n" + 
+                        "X Position: " + imgX + "\n" + 
+                        "Y Position: " + imgY + "\n" +
+                        "Z Index: " + imgZIndex + "\n" +
+                        "Margin: " + imgMargin + "\n" +
+                        "Border: " + imgBorder + "\n" +
+                        "Alt Text: " + imgAltText + "\n";
+
+      $(".lens").html(htmlForTextWithEmbeddedNewlines(lensImgText));
+
+    });
+
+    $('p').mouseover(function(e) {
+
+      var paraWidth = $(e.target).width()
+      $('#paraWidth').val(paraWidth);
+      var paraHeight = $(e.target).height()
+      $('#paraHeight').val(paraHeight);
+      var paraPosition = $(e.target).position();
+      var paraX = paraPosition.left;
+      $('#paraX').val(paraX);
+      var paraY =  Math.round(paraPosition.top);
+      $('#paraY').val(paraY);
+      var stringLength = $(e.target).text().length;
+      $('#stringLength').val(stringLength);
+      var wordCount = $(e.target).text().split(/\s+/).length;
+      $('#wordCount').val(wordCount);
+
+      var lensParaText = "Width: " + paraWidth + "\n" + 
+                         "Height: " + paraHeight + "\n" + 
+                         "X Position: " + paraX + "\n" + 
+                         "Y Position: " + paraY + "\n" +
+                         "Character Count: " + stringLength + "\n" +
+                         "Word Count: " + wordCount + "\n";
+
+      $(".lens").html(htmlForTextWithEmbeddedNewlines(lensParaText));
+
+    });
+
+    $('table').mouseover(function(e) {
+
+      $(e.target).attr('id', 'thisTable');
+
+      var tableWidth = $(e.target).width()
+      $('#tableWidth').val(tableWidth);
+      var tableHeight = $(e.target).height()
+      $('#tableHeight').val(tableHeight);
+      var tablePosition = $(e.target).position();
+      var tableX = tablePosition.left;
+      $('#tableX').val(tableX);
+      var tableY = Math.round(tablePosition.top);
+      $('#tableY').val(tableY);
+      var numCells = $("#thisTable > tbody > tr > td").length;
+      $('#numCells').val(numCells);
+      var numRows = $("#thisTable > tbody > tr").length;
+      $('#numRows').val(numRows);
+      var numColumns = $("#thisTable > tbody > tr > td").length;
+      $('#numColumns').val(numColumns/numRows);
+      var tableZIndex = $(e.target).css('z-index');
+      $('#tableZIndex').val(tableZIndex);
+      var tableMargin = $(e.target).css('margin');
+      $('#tableMargin').val(tableMargin);
+      var tableBorder = $(e.target).css('border');
+      $('#tableBorder').val(tableBorder);
+
+      var lensTableText = "Width: " + tableWidth + "\n" + 
+                          "Height: " + tableHeight + "\n" + 
+                          "X Position: " + tableX + "\n" + 
+                          "Y Position: " + tableY + "\n" +
+                          "Number of Cells: " + numCells + "\n" +
+                          "Number of Rows: " + numRows + "\n" +
+                          "Number of Columns: " + numColumns/numRows + "\n" +
+                          "Z Index: " + tableZIndex + "\n" +
+                          "Margin: " + tableMargin + "\n" +
+                          "Border: " + tableBorder + "\n";
+
+      $(".lens").html(htmlForTextWithEmbeddedNewlines(lensTableText));
 
     });
 
     // code to drag the lens around with the mouse
     $('.lens').mousemove(function(e){
 
-      var lensPositionX = e.pageX - 150;
-      var lensPositionY = e.pageY - 150;
+      var lensPositionX = e.pageX - 125;
+      var lensPositionY = e.pageY - 100;
 
       $('.lens').css({top: lensPositionY, left: lensPositionX});
 
+    });
+
+    $(function(){
+      
     });
 
   });
