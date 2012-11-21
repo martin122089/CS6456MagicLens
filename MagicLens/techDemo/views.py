@@ -14,4 +14,13 @@ def textAnnotate(request):
 
 def viewCode(request):
     return render_to_response('viewCode.html', {})
+
+def screenShot(request):
+    return render_to_response('screenShot.html', {})
+
+def highlight(request):
+    return render_to_response('highlight.html', {})
+
+def dummyWebsite(request):
+    return render_to_response('dummyWebsite.html', {})
     

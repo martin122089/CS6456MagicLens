@@ -1,18 +1,5 @@
 <style type="text/css">
 
-  /*Styles for dark overlay*/
-  #dimming{ display: none;
-			position: absolute;
-			top: 0%;
-			left: 0%;
-			width: 100%;
-			height: 100%;
-			background-color: black;
-			z-index:1001;
-			opacity:.80;
-			filter: alpha(opacity=80);
-  }
-
   /*CSS for the lens to be dragged around*/
   /*lens effect is achieved by using the box-shadow CSS property*/
   .lens {
@@ -21,15 +8,15 @@
     position: absolute;
     z-index:1002;
     /*Multiple box shadows to achieve the glass effect*/
-    box-shadow: 0 0 0 7px rgba(255, 255, 0, 0.85), 
-                0 0 7px 7px rgba(255, 215, 0, 0.85), 
-          inset 0 0 40px 2px rgba(255, 165, 0, 0.85);
-    background: url('http://fc05.deviantart.net/fs71/f/2012/325/5/e/screendim_by_something21-d5lr7yh.png') no-repeat;
+    box-shadow: 0 0 0 7px rgba(255, 255, 255, 0.85), 
+                0 0 7px 7px rgba(0, 0, 0, 0.85), 
+          inset 0 0 40px 2px rgba(0, 0, 0, 0.85);
+    background: none;
   }
 
   img {
-      border:1px solid #021a40;
-    }
+    border:1px solid #021a40;
+  }
 
   body {
     margin-left: 35%;
@@ -51,10 +38,7 @@
   <!-- HTML for the lens to be dragged around -->
   <div id="draggableLens" class="lens"></div>
 
-  <!-- div for the dark overlay -->
-  <div id="dimming"></div>
-
-  <h1>Web Page Focus</h1>
+  <h1>Screenshot of Web Page</h1>
 
   <br>
 
@@ -140,32 +124,7 @@
 <script>
   $(document).ready(function(){
 
-    // hide the lens when the user first loads the page
-    $(".lens").hide();
-
-    //Adjust height of overlay to fill screen when page loads
-    $("#dimming").css("height", $(document).height());
-
-    //when the d button is pressed, dim the screen and show the lens
-    $(document).keypress(function(event){
-      if ( event.which == 100 ) {      
-        $("#dimming").fadeIn();
-        $('.lens').show();
-        $('body').css({'cursor' : 'none'});
-        return false;
-      };
-
-    //when the u button is pressed, undim the screen and hide the lens
-      if ( event.which == 117 ) { 
-        $("#dimming").fadeOut();
-        $(".lens").hide();
-        $('body').css({'cursor' : 'default'});
-        return false;
-      };       
-    });
-
     //controls for increasing and decreasing the size of the lens
-    //consider changing this to look for scroll events
     $(document).keypress(function(event){
       if ( event.which == 119) {
         $('.lens').css('width', "+=25");
@@ -182,13 +141,15 @@
       if ( event.which == 110) {
         $('.lens').css('height', "-=25");
       };
+
+      //clears the lens by pressing the c button
+      if ( event.which == 99) {
+        $('.lens').css({background: 'none'});
+      };
     });
 
-    //make the lens follow the mouse around the screen
-    $("#draggableLens").mousemove(function(e){
-
-      var lensPositionX = Math.round(e.pageX - 300);
-      var lensPositionY = Math.round(e.pageY - 150);
+    //gets the portion of the screen where the lens is and makes it display inside the lens
+    $("#draggableLens").click(function(e){
 
       //gets the position of the mouse relative to the lens and relative to the screen, use this to position the background image as the mouse moves around
       var position = $(this).position();
@@ -197,13 +158,22 @@
       var mousePositionY = Math.round(e.pageY - position.top - offset.top - 150);
 
       var backgroundPositionCSS = mousePositionX + "px " + mousePositionY + "px";
-      $('.lens').css({top: lensPositionY, left: lensPositionX, backgroundPosition: backgroundPositionCSS});
+
+      var imageURL = 'http://fc09.deviantart.net/fs70/f/2012/325/5/1/screenshot_by_something21-d5lr7y5.png';
+
+      $('.lens').css({background: 'url(' + imageURL + ') no-repeat'});
+      $('.lens').css({backgroundPosition: backgroundPositionCSS});
 
     });
-  });
 
-  //Adjust height of overlay to fill screen when browser gets resized
-  $(window).bind("resize", function(){
-    $("#dimming").css("height", $(window).height());
+    //make the lens follow the mouse around the screen
+    $("#draggableLens").mousemove(function(e){
+
+      var lensPositionX = Math.round(e.pageX - 300);
+      var lensPositionY = Math.round(e.pageY - 150);
+
+      $('.lens').css({top: lensPositionY, left: lensPositionX});
+
+    });
   });
 </script>
