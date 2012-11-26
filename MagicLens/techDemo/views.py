@@ -9,8 +9,8 @@ def screenDim(request):
 def resizeContent(request):
     return render_to_response('resizeContent.html', {})
 
-def textAnnotate(request):
-    return render_to_response('textAnnotate.html', {})
+def textAnnotation(request):
+    return render_to_response('textAnnotation.html', {})
 
 def viewCode(request):
     return render_to_response('viewCode.html', {})
@@ -18,8 +18,8 @@ def viewCode(request):
 def screenShot(request):
     return render_to_response('screenShot.html', {})
 
-def highlight(request):
-    return render_to_response('highlight.html', {})
+def textHighlight(request):
+    return render_to_response('textHighlight.html', {})
 
 def dummyWebsite(request):
     return render_to_response('dummyWebsite.html', {})
